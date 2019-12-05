@@ -11,17 +11,64 @@
             $arquivo = file_get_contents($nomeArquivo);
             // Como o arquivo está em json, temos que decodificar pra uma linguagem legivel
             $produtos = json_decode($arquivo,true);
-
+            // tentando entender esse passo: se não tiver nenhum produto ele irá receber id = 1 e os outros parametros direto do formulário
             if($produtos==[]){
                 $produtos[] = [
                     "idProduto"=>1,
                     "nome"=>$nomeProd,
                     "descricao"=>$descricaoProd,
-                    ""
-                ]
+                    "categoria"=>$categoriaProd,
+                    "preco"=>$precoProd,
+                    "img"=>$imgProd
+                ];
+                // no else vamos validar para que se já existe um primeiro item cadastrado, o programa vai adicionar um numero ao ultimo id para gerar o proximo id
+            } else {
+                // aqui o proximo id vai entrar no final do array criando um novo produto com novo id
+                $ultimoId = end($produtos);
+                // Agora vamos adicionar +1 no id para gerar o proximo id para o proximo produto. O proximo id vai pegar o valor do id do utimo produto e somar 1
+                $proximoId = $ultimoId["idProduto"]+1;
+                // agora já temos o id seguinte para gerar novo produto, então é soh declarar que novo id é o proximoID dentro array do produto
+                $produtos[] = [
+                    "idProduto"=>$proximoId,
+                    "nome"=>$nomeProd,
+                    "descricao"=>$descricaoProd,
+                    "categoria"=>$categoriaProd,
+                    "preco"=>$precoProd,
+                    "img"=>$imgProd
+                ];
+            }
+            $json = json_encode($produtos);
+            $sucesso = file_put_contents($nomeArquivo, $json);
+            if($sucesso){
+            } else {
+                return "Aconteceu algum erro, produto não cadastrado!";
+            }
+        } else {
+            $produtos = [];
+            $produtos[] = [
+                "idProduto"=>1,
+                "nome"=>$nomeProd,
+                "descricao"=>$descricaoProd,
+                "categoria"=>$categoriaProd,
+                "preco"=>$precoProd,
+                "img"=>$imgProd
+            ];
+            $json = json_encode($produtos);
+            $sucesso = file_put_contents($nomeArquivo, $json);
+            if($sucesso){
+            } else {
+                return "Aconteceu algum erro, produto não cadastrado!";
             }
         }
     }
+    if($_POST){
+        $nome = $_FILES["imgProduto"]["name"];//nome do arquivo que será enviado = transformado em variável
+        $data = date("d-m-y_H_i_s"); //nao entendi esse his dps da data
+        $pastaImg = dirname(__FILE__)."/img/".$data.$nome;
+        $pastaTemporaria = $_FILES["imgProduto"]["tmp_name"];
+        $sucesso = move_uploaded_file($pastaTemporaria, $pastaImg);
+        echo cadastroProduto($_POST["nomeProd"],$_POST["categoriaProd"],$_POST["descricaoProd"],$_POST["quantidadeProd"],$_POST["precoProd"], $pastaImg);
+        
 ?>
 
 
