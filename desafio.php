@@ -61,7 +61,7 @@
         $nomeImg = $_FILES["imgProd"]["name"];
         $pastaTemporaria = $_FILES["imgProd"]["tmp_name"];
         $data = date("d-m-y_H_i_s_");
-        $pastaImg = "img".$data.$nomeImg;
+        $pastaImg = "img/".$data.$nomeImg;
         $sucesso = move_uploaded_file($pastaTemporaria, $pastaImg);
         echo cadastroProduto($_POST["nomeProd"], $_POST["descricaoProd"],$_POST["quantidadeProd"], $_POST["categoriaProd"], $_POST["precoProd"], $pastaImg);
     }
@@ -107,13 +107,13 @@
                                 ?>
                                 <tr>
                                     <?php if($produto["nome"] != []){ ?>
-                                    <td><a href="produto.php?idProduto=<?php $produto["idProduto"];?>"><?php $produto["nome"]; ?></a></td> 
+                                    <td><a href="produto.php?idProduto=<?php echo $produto["idProduto"];?>"><?php echo $produto["nome"]; ?></a></td> 
                                     <?php } else{ ?>
-                                    <td><a href="produto.php?idProduto=<?php $produto["idProduto"];?>"><?php $produto["categoria"]; ?></a></td>
+                                    <td><a href="produto.php<?php echo $produto["idProduto"];?>"><?php echo $produto["categoria"]; ?></a></td>
                                     <?php } ?>
-                                    <td><?php $produto["categoria"]; ?></td>
-                                    <td><?php "R$".$produto["preco"]; ?></td>
-                                    <td><?php "R$".$produto["quantidade"]; ?></td>
+                                    <td><?php echo $produto["categoria"]; ?></td>
+                                    <td><?php echo "R$".$produto["preco"]; ?></td>
+                                    <td><?php echo $produto["quantidade"]; ?></td>
                                 </tr>
                                     <?php } ?>
                             </tbody>
