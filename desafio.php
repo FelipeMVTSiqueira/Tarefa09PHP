@@ -67,7 +67,8 @@
         $pastaImg = dirname(__FILE__)."/img/".$data.$nome;
         $pastaTemporaria = $_FILES["imgProduto"]["tmp_name"];
         $sucesso = move_uploaded_file($pastaTemporaria, $pastaImg);
-        echo cadastroProduto($_POST["nomeProd"],$_POST["categoriaProd"],$_POST["descricaoProd"],$_POST["quantidadeProd"],$_POST["precoProd"], $pastaImg);
+        echo cadastroProduto($_POST["nomeProd"],$_POST["categoriaProd"],$_POST["descricaoProd"],$_POST[""],$_POST[""], $pastaImg);
+    }
         
 ?>
 
@@ -86,6 +87,11 @@
     <title>Desafio PHP</title>
 </head>
 <body>
+    <?php
+        include_once("variaveis.php");
+        include_once("config/validacao.php");
+    ?>
+
     <main class="m-5">
         <section class="container-fluid">
             <div class="row">
@@ -101,14 +107,21 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                <!-- checar se existem produtos cadastrados e exibe com foreach na tabela criando nova linha por item cadastrado -->
+                                <?php if(isset($produtos) && $produtos != []){ ?>
+                                <?php foreach($produtos as $produto){ ?>
                                 <tr>
-                                    <td><a href="produto.php">Black Keys</a></td>
-                                    <td>Camiseta</td>
-                                    <td>R$ 55,00</td>
-                                    <td>67</td>
+                                    <?php if($produto["nomeProd"] != []){ ?>
+                                    <td><a href="produto.php?idProduto=<?= $produto['idProduto']; ?> "> <?= $produto["nomeProd"]; ?></a></td> <?php } ?>
+                                    <td><?php $produto["categoriaProd"]; ?></td>
+                                    <td><?php "R$".$produto["precoProd"]; ?></td>
                                 </tr>
+                                    <?php } ?>
                             </tbody>
                         </table>
+                                    <?php } else { ?>
+                                        <h2>Ops! Não há nenhum item cadastrado!</h2>
+                                    <?php } ?>
                     </div>
                 <div class="col-3 bg-light pt-4 rounded-lg">
                     <h3 class="mx-3">Cadastrar novo produto:</h3>
@@ -124,7 +137,13 @@
                             </div>
                             <div class="form-group">
                                 <label for="categoriaProduto">Categoria</label>
-                                <input type="text" class="form-control" id="categoriaProduto" name="categoriaProduto" placeholder="Selecione a categoria do produto" required>
+                                <?php if (isset($categorias) && $categorias != []){ ?>
+                                <select class="form-control" id="categoriaProduto" name="categoriaProduto" required>
+                                <?php foreach($categorias as $categoria){ ?>
+                                <option value="<?php echo $categoria ?>"><?php echo $categoria ?></option>
+                                <?php } ?>
+                                <?php } ?>
+                            </select>
                             </div>
                             <div class="form-group">
                                 <label for="precoProduto">Preço</label>

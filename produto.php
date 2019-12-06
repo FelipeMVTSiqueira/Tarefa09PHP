@@ -14,18 +14,22 @@
     <main class="mt-5">
         <section class="container bg-light rounded-lg px-4 pt-4">
             <div class="row">
+                <?php if(isset($produtos) && $produtos != []){ ?>
+                <?php foreach($produtos as $produto){
+                    if($_GET["idProduto"] == $produto["idProduto"] ){ ?>
                 <div class="col-5 m-2">
                     <img src="img/prancha.jpg" class="img-fluid rounded-lg" style="width: 500px;" alt="imagem do produto">
                 </div>
                 <div class="col-6">
                     <div class="card-body">
-                        <h1>Nome Produto Escolhido:</h1>
-                        <p>Preco do Produto:</p>
-                        <p>Categoria do Produto:</p>
-                        <p>Descricao do Produto:</p>
-                        <p>Quantidade em Estoque:</p>
+                        <h1><?php echo $produto["nomeProd"]?></h1>
+                        <h3>Preco do Produto: <?php echo "R$".$produto["precoProd"]?> </h3>
+                        <h3>Categoria do Produto: <?php echo $produto["categoriaProd"]?> </3>
+                        <h4>Descricao do Produto: <?php echo $produto["descricaoProd"]?> </h4>
+                        <h5>Quantidade em Estoque: <?php echo $produto["quantidadeProd"]?> </h5>
                     </div>
                 </div>
+                    <?php } } }?>
             </div>
             <div class="d-flex justify-content-end">
                 <button class="m-3 rounded-lg"><a href="desafio.php">Voltar para lista de produtos</a></button>
