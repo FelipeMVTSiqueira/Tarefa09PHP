@@ -61,9 +61,9 @@
         $nomeImg = $_FILES["imgProd"]["name"];
         $pastaTemporaria = $_FILES["imgProd"]["tmp_name"];
         $data = date("d-m-y_H_i_s_");
-        $pastaImg = "img/".$nomeImg.$data;
+        $pastaImg = "img".$data.$nomeImg;
         $sucesso = move_uploaded_file($pastaTemporaria, $pastaImg);
-        echo cadastroProduto($_POST["nomeProd"],$_POST["categoriaProd"],$_POST["descricaoProd"],$_POST["quantidadeProd"],$_POST["precoProd"], $pastaImg);
+        echo cadastroProduto($_POST["nomeProd"], $_POST["descricaoProd"],$_POST["quantidadeProd"], $_POST["categoriaProd"], $_POST["precoProd"], $pastaImg);
     }
         
 ?>
@@ -107,7 +107,8 @@
                                 ?>
                                 <tr>
                                     <?php if($produto["nome"] != []){ ?>
-                                    <td><a href="produto.php?idProduto=<?php $produto["idProduto"];?>"><?php $produto["nome"]; ?></a></td> <?php } else{ ?>
+                                    <td><a href="produto.php?idProduto=<?php $produto["idProduto"];?>"><?php $produto["nome"]; ?></a></td> 
+                                    <?php } else{ ?>
                                     <td><a href="produto.php?idProduto=<?php $produto["idProduto"];?>"><?php $produto["categoria"]; ?></a></td>
                                     <?php } ?>
                                     <td><?php $produto["categoria"]; ?></td>
@@ -118,19 +119,13 @@
                             </tbody>
                         </table>
                         <?php } else { ?>
-                                            <div class="container">
-                                                <div class="row">
-                                                    <div class="col-6">
-                                                        <h2>Ops! Não há nenhum item cadastrado!</h2>
-                                                    </div> 
-                                                </div>
-                                            </div>
-                                        <?php } ?>
+                            <h2>Ops! Não há nenhum item cadastrado!</h2>
+                            <?php } ?>
                 </div>
                 <div class="col-3 bg-light pt-4 rounded">
                     <h3 class="mx-3">Cadastrar novo produto:</h3>
                     <div class="font-weight-bold mx-3">
-                        <form action="" class="post" enctype="multipart/form-data">
+                        <form action="" method="post" enctype="multipart/form-data">
                             <div class="form-group">
                                 <label for="nomeProd">Nome do Produto</label>
                                 <input type="text" class="form-control" name="nomeProd" id="nomeProd" maxlenght=70 placeholder="O que vc vai desapegar?" required />
