@@ -11,8 +11,4 @@
             array_push($erros, "Descrição inválida.");
         }
     }
-    global $erros;
-    if($erros !=  []){
-        echo "Cadastro não realizado =/ por fabor tente denovo.";
-    }
 ?>

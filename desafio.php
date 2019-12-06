@@ -1,5 +1,3 @@
-
-
 <?php
     function cadastroProduto($nomeProd, $descricaoProd, $quantidadeProd, $categoriaProd, $precoProd, $imgProd){
         $nomeArquivo = "produto.json";
@@ -99,6 +97,7 @@
                                     <th scope="col">Categoria</th>
                                     <th scope="col">Preço</th>
                                     <th scope="col">Quantidade</th>
+                                    <th scope="col"></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -114,6 +113,12 @@
                                     <td><?php echo $produto["categoria"]; ?></td>
                                     <td><?php echo "R$".$produto["preco"]; ?></td>
                                     <td><?php echo $produto["quantidade"]; ?></td>
+                                    <td><div class="container-fluid">
+                                            <div class="d-flex justify-content-between">
+                                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="<?php echo $produto["nome"];?>">Editar</button>
+                                                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Apagar</button>
+                                            </div>
+                                        </div></td>
                                 </tr>
                                     <?php } ?>
                             </tbody>
@@ -164,7 +169,69 @@
                     </div>
                 </div>
             </div>
+
+
+            
+
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel"><?php echo $produto["nome"];  ?></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">Nome:</label>
+                        <input type="text" class="form-control" id="recipient-name">
+                    </div>
+                    <div class="form-group">
+                        <label for="descricao" class="col-form-label">Descricao:</label>
+                        <textarea class="form-control"><?php echo $produto["descricao"] ?></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="quantidade" class="col-form-label">Quantidade:</label>
+                        <textarea class="form-control"><?php echo $produto["quantidade"] ?></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="categoria" class="col-form-label">Categoria:</label>
+                        <textarea class="form-control"><?php echo $produto["categoria"] ?></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="preco" class="col-form-label">Preco:</label>
+                        <textarea class="form-control"><?php echo $produto["preco"] ?></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="img" class="col-form-label">Foto:</label><?php echo "<br>"."<br>"; ?>
+                        <img src="<?php echo $produto["img"] ?>" class="container" style="width: 80px;">
+                    </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Send message</button>
+                </div>
+                </div>
+            </div>
+            </div>
         </section>
     </main>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+<script type="text/javascript"> $('#exampleModal').on('show.bs.modal', function (event) {
+  var button = $(event.relatedTarget) // Button that triggered the modal
+  var recipient = button.data('whatever') // Extract info from data-* attributes
+  // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+  // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+  var modal = $(this)
+  modal.find('.modal-title').text('Editar as infos do produto: ' + recipient)
+  modal.find('.modal-body input').val(recipient)
+})    
+</script>
 </body>
 </html>
